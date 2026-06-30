@@ -38,3 +38,34 @@
 //     gettimeofday(&tv, NULL);
 //     printf("\n\n%ld\n", tv.tv_usec);
 // }
+
+
+#include <pthread.h>
+#include <stdio.h>
+
+int msg = 0;
+pthread_mutex_t lock;
+
+void *routine()
+{
+    pthread_mutex_lock(&lock);
+    int i = 0;
+    while (i < 1000000)
+    {
+        msg++;
+        i++;
+    }
+    pthread_mutex_unlock(&lock);
+}
+
+int main()
+{
+    pthread_t t1, t2;
+    pthread_mutex_init(&lock, NULL);
+    pthread_create(&t1, NULL, &routine, NULL);
+    pthread_create(&t2, NULL, &routine, NULL);
+    pthread_join(t1, NULL);
+    pthread_join(t2, NULL);
+    pthread_mutex_destroy(&lock);
+    printf("the msg that you recive is : %d", msg);
+}

@@ -6,11 +6,11 @@
 /*   By: oabderra <oabderra@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/28 10:42:42 by oabderra          #+#    #+#             */
-/*   Updated: 2026/06/28 10:43:24 by oabderra         ###   ########.fr       */
+/*   Updated: 2026/06/30 16:15:03 by oabderra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing_input.h"
+#include "headerfile.h"
 #include <string.h>
 
 
@@ -56,6 +56,9 @@ int	parser(char **av, t_conf *config)
 		printf("Error: scheduler must be either \"fifo\" or \"edf\".\n");
 		return (0);
 	}
-	config->scheduler = av[8];
+	if (strcmp(av[8], "fifo"))
+		config->scheduler = 1;
+	else
+		config->scheduler = 0;
 	return (1);
 }
