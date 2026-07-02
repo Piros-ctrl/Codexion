@@ -42,30 +42,57 @@
 
 #include <pthread.h>
 #include <stdio.h>
+#include <unistd.h>
 
-int msg = 0;
-pthread_mutex_t lock;
+// int msg = 0;
+pthread_mutex_t mutex;
+pthread_cond_t cond;
 
-void *routine()
+// void *routine()
+// {
+//     pthread_mutex_lock(&lock);
+//     int i = 0;
+//     while (i < 1000000)
+//     {
+//         msg++;
+//         i++;
+//     }
+//     pthread_mutex_unlock(&lock);
+// }
+
+int dispo = 0;
+int routine()
 {
-    pthread_mutex_lock(&lock);
-    int i = 0;
-    while (i < 1000000)
+    printf("Thread %lu entered routine\n", (unsigned long)pthread_self());
+    sleep(2);
+    printf("Thread %lu leaving routine\n", (unsigned long)pthread_self());
+}
+void *func()
+{
+    pthread_mutex_lock(&mutex);
+    while (dispo == 1)
     {
-        msg++;
-        i++;
+        pthread_cond_wait(&cond, &mutex);
     }
-    pthread_mutex_unlock(&lock);
+    if (dispo == 0)
+    {
+        pthread_cond_broadcast(&cond);
+    }
+    routine();
+    pthread_mutex_unlock(&mutex);
+    
 }
 
 int main()
 {
     pthread_t t1, t2;
-    pthread_mutex_init(&lock, NULL);
-    pthread_create(&t1, NULL, &routine, NULL);
-    pthread_create(&t2, NULL, &routine, NULL);
+    pthread_mutex_init(&mutex, NULL);
+    pthread_cond_init(&cond, NULL);
+    pthread_create(&t1, NULL, &func, NULL);
+    pthread_create(&t2, NULL, &func, NULL);
     pthread_join(t1, NULL);
     pthread_join(t2, NULL);
-    pthread_mutex_destroy(&lock);
-    printf("the msg that you recive is : %d", msg);
+    pthread_mutex_destroy(&mutex);
+    pthread_cond_destroy(&cond);
+    // printf("the msg that you recive is : %d", msg);
 }
