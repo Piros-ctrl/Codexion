@@ -15,11 +15,13 @@ t_dongles	*ft_init_dongeles(t_sim *sim, long nb)
 		dongle[i].id = i + 1;
 		dongle[i].available_at = 0;
 		dongle[i].is_available = 1;
+
 		pthread_mutex_init(&dongle[i].lock, NULL);
 		pthread_cond_init(&dongle[i].cond, NULL);
-		dongle[i].waiting.coders = malloc(nb * sizeof(t_coder *));
-		if (!dongle[i].waiting.coders)
-			return (ft_free(sim, i, 4));
+
+		dongle[i].waiting.coders[0] = NULL;
+		dongle[i].waiting.coders[1] = NULL;
+
 		dongle[i].waiting.capacity = nb;
 		dongle[i].waiting.size = 0;
 		i++;
