@@ -23,13 +23,13 @@ t_dongles	*ft_init_dongeles(t_sim *sim, long nb)
 		dongle[i].waiting.coders[1] = NULL;
 
 		dongle[i].waiting.capacity = nb;
-		dongle[i].waiting.size = 0;
+		dongle[i].waiting.occupancy = 0;
 		i++;
 	}
 	return (dongle);
 }
 
-t_coder	*ft_init_coder(t_sim *sim)
+t_coder	*ft_init_coders(t_sim *sim)
 {
 	t_coder	*coder;
 	long	nb;
