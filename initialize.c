@@ -75,7 +75,7 @@ t_sim	*ft_init_sim(t_conf *config)
 	pthread_mutex_init(&sim->log_mutex, NULL);
 	if (!ft_init_dongeles(sim, config->number_of_coders))
 		return (NULL);
-	if (!ft_init_coder(sim))
+	if (!ft_init_coders(sim))
 		return (NULL);
 	return (sim);
 }

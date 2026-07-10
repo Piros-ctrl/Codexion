@@ -1,3 +1,5 @@
+#include "headerfile.h"
+
 int is_solid_int(char *s)
 {
     int i;
