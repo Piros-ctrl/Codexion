@@ -39,24 +39,24 @@ int	ft_sleep(long ms, t_sim *sim)
 	return (0);
 }
 
-void	ft_print_log(t_coder *c, char *str)
+void	ft_print_log(t_coder *coder, char *str)
 {
-	pthread_mutex_lock(&c->sim->log_mutex);
-	if (ft_read_safe(&c->sim->share_mutex, &c->sim->simulation_on))
-		printf("%ld %ld %s\n", ft_get_time() - c->sim->start_time, c->id, str);
-	pthread_mutex_unlock(&c->sim->log_mutex);
+	pthread_mutex_lock(&coder->sim->log_mutex);
+	if (ft_read_safe(&coder->sim->share_mutex, &coder->sim->simulation_on))
+		printf("%ld %ld %s\n", ft_get_time() - coder->sim->start_time, coder->id, str);
+	pthread_mutex_unlock(&coder->sim->log_mutex);
 }
 
-void	get_dongle_order(t_coder *c, t_dongles **first, t_dongles **second)
+void	get_dongle_order(t_coder *coder, t_dongles **first, t_dongles **second)
 {
-	if (c->left_dongle->id < c->right_dongle->id)
+	if (coder->left_dongle->id < coder->right_dongle->id)
 	{
-		*first = c->left_dongle;
-		*second = c->right_dongle;
+		*first = coder->left_dongle;
+		*second = coder->right_dongle;
 	}
 	else
 	{
-		*first = c->right_dongle;
-		*second = c->left_dongle;
+		*first = coder->right_dongle;
+		*second = coder->left_dongle;
 	}
 }
