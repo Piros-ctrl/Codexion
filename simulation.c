@@ -35,7 +35,7 @@ void	*ft_rotine(void *args)
 	t_dongles	*second;
 
 	c = (t_coder *)args;
-	get_dongle_order(c, &first, &second);
+	get_dongle_order(c, &first, &second); // why two pointers
 	while (ft_read_safe(&c->sim->share_mutex, &c->sim->simulation_on))
 	{
 		if (ft_cycle_life(c, first, second))

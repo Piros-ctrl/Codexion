@@ -15,6 +15,7 @@ int	take_dongles(t_coder *c, t_dongles *d)
 	d->is_available = 0;
 	d->available_at = ft_get_time();
 	pthread_mutex_unlock(&d->lock);
+	ft_print_log(c, "has taken a dongle");
 	return (0);
 }
 
