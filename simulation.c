@@ -5,7 +5,7 @@ int	ft_cycle_life(t_coder *coder, t_dongles *first, t_dongles *second)
 	if (take_dongles(coder, first))
 		return (1);
 	if (coder->sim->params->number_of_coders == 1)
-		return (ft_sleep(coder->sim->params->time_to_burnout + 20, coder->sim), 1);
+		return (ft_sleep(coder->sim->params->time_to_burnout, coder->sim), 1);
 	if (take_dongles(coder, second))
 		return (ft_put_dongles(coder), 1);
 	ft_change_value(&coder->sim->share_mutex, &coder->last_compile, ft_get_time());
@@ -30,15 +30,15 @@ int	ft_cycle_life(t_coder *coder, t_dongles *first, t_dongles *second)
 
 void	*ft_rotine(void *args)
 {
-	t_coder		*c;
+	t_coder		*coder;
 	t_dongles	*first;
 	t_dongles	*second;
 
-	c = (t_coder *)args;
-	get_dongle_order(c, &first, &second); // why two pointers
-	while (ft_read_safe(&c->sim->share_mutex, &c->sim->simulation_on))
+	coder = (t_coder *)args;
+	get_dongle_order(coder, &first, &second); // why two pointers
+	while (ft_read_safe(&coder->sim->share_mutex, &coder->sim->simulation_on))
 	{
-		if (ft_cycle_life(c, first, second))
+		if (ft_cycle_life(coder, first, second))
 			return (NULL);
 	}
 	return (NULL);
