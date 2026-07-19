@@ -19,6 +19,7 @@ t_dongles	*ft_init_dongeles(t_sim *sim, long nb)
 		pthread_mutex_init(&dongle[i].lock, NULL);
 		pthread_cond_init(&dongle[i].cond, NULL);
 
+		capture_dongle(&dongle[i], sim);
 		dongle[i].waiting.coders[0] = NULL;
 		dongle[i].waiting.coders[1] = NULL;
 

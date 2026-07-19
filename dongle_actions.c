@@ -5,11 +5,12 @@ int	take_dongles(t_coder *coder, t_dongles *dongle)
 	pthread_mutex_lock(&dongle->lock);
 	while (!dongle->is_available)
 	{
-		if (!ft_read_safe(&coder->sim->share_mutex, &coder->sim->simulation_on))
-		{
-			pthread_mutex_unlock(&dongle->lock);
-			return (1);
-		}
+		// if (!ft_read_safe(&coder->sim->share_mutex, &coder->sim->simulation_on))
+		// {
+		// 	pthread_mutex_unlock(&dongle->lock);
+		// 	return (1);
+		// }
+		// this part is still sespecios
 		pthread_cond_wait(&dongle->cond, &dongle->lock);
 	}
 	dongle->is_available = 0;

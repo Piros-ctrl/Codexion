@@ -12,9 +12,7 @@ int	ft_cycle_life(t_coder *coder, t_dongles *first, t_dongles *second)
 	ft_print_log(coder, "is compiling");
 	if (ft_sleep(coder->sim->params->time_to_compile, coder->sim))
 		return (ft_put_dongles(coder), 1);
-	pthread_mutex_lock(&coder->sim->share_mutex);
-	coder->compile_count++;
-	pthread_mutex_unlock(&coder->sim->share_mutex);
+	incrementing_c_count(&coder);
 	ft_put_dongles(coder);
 	ft_print_log(coder, "is debugging");
 	if (ft_sleep(coder->sim->params->time_to_debug, coder->sim))

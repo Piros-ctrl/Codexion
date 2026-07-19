@@ -1,11 +1,19 @@
 #include "headerfile.h"
 
+
 long	ft_get_time(void)
 {
 	struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
+}
+
+void incrementing_c_count(t_coder *coder)
+{
+	pthread_mutex_lock(&coder->sim->share_mutex);
+	coder->compile_count++;
+	pthread_mutex_unlock(&coder->sim->share_mutex);
 }
 
 void	ft_change_value(pthread_mutex_t *mutex, long *var, long val)
@@ -58,5 +66,27 @@ void	get_dongle_order(t_coder *coder, t_dongles **first, t_dongles **second)
 	{
 		*first = coder->right_dongle;
 		*second = coder->left_dongle;
+	}
+}
+
+void capture_dongle(t_dongles *dongle,t_sim *sim )
+{
+	t_coder *coders;
+	long	nb;
+	long	i;
+
+	i = 0;
+	nb = sim->params->number_of_coders;
+	coders = sim->coders;
+	while (i <= nb)
+	{
+		if (i % 2 != 0){
+			dongle->waiting.coders[0] = coders[i];
+			dongle->waiting.coders[1] = coders[(i + 1) % nb];
+		}
+		else{
+		}
+		dongle->waiting.coders[1] = NULL;
+		i++;
 	}
 }
