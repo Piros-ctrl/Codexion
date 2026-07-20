@@ -22,8 +22,6 @@ t_dongles	*ft_init_dongeles(t_sim *sim, long nb)
 		dongle[i].waiting.coders[0] = NULL;
 		dongle[i].waiting.coders[1] = NULL;
 
-		dongle[i].waiting.capacity = nb;
-		dongle[i].waiting.occupancy = 0;
 		i++;
 	}
 	return (dongle);

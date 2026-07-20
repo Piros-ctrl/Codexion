@@ -27,8 +27,6 @@ typedef struct s_conf{
 typedef struct s_queue
 {
 	t_coder					*coders[2];
-	long					occupancy;
-	long					capacity;
 }							t_queue;
 
 //============> this is for dungle
