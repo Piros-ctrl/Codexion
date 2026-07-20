@@ -8,8 +8,10 @@ SRCS		= initialize.c \
 			  simulation.c \
 			  monitor.c \
 			  cleanup.c \
+			  even_more_util.c \
+			  scheduler.c \
 			  parsing_input.c \
-			  main.c
+			  codexion.c
 OBJS		= $(SRCS:.c=.o)
 
 all: $(NAME)

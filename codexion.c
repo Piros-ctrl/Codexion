@@ -1,38 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   even_more_util.c                                   :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oabderra <oabderra@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/20 06:58:44 by oabderra          #+#    #+#             */
-/*   Updated: 2026/07/20 18:00:01 by oabderra         ###   ########.fr       */
+/*   Created: 2026/07/20 18:26:28 by oabderra          #+#    #+#             */
+/*   Updated: 2026/07/20 18:26:30 by oabderra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "headerfile.h"
 
-void    ft_swap(t_coder **coder0, t_coder **coder1)
+int	main(int ac, char **av)
 {
-    t_coder *tmp;
+	t_conf	config;
+	t_sim	*sim;
 
-    tmp = *coder0;
-    *coder0 = *coder1;
-    *coder1 = tmp;
-}
-
-t_coder	*ft_first_waiting(t_dongles *dongle)
-{
-	t_coder	*c0;
-	t_coder	*c1;
-
-	c0 = dongle->waiting.coders[0];
-	c1 = dongle->waiting.coders[1];
-	if (c0 == NULL)
-		return (c1);
-	if (c1 == NULL)
-		return (c0);
-	if (c0->request_time <= c1->request_time)
-		return (c0);
-	return (c1);
+	if (ac != 9)
+	{
+		fprintf(stderr, "Usage: %s number_of_coders time_to_burnout "
+			"time_to_compile time_to_debug time_to_refactor "
+			"[number_of_compiles_required]\n", av[0]);
+		return (1);
+	}
+	if (parser(av, &config) != 0)
+		return (1);
+	sim = ft_init_sim(&config);
+	if (!sim)
+		return (1);
+	if (ft_simulation(sim))
+		return (1);
+	return (0);
 }

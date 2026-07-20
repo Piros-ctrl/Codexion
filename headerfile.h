@@ -108,4 +108,13 @@ void		*ft_monitor(void *arg);
 void		ft_destroy(t_sim *sim);
 int			ft_free_thread(t_sim *sim, t_coder *coder, long i);
 
+//============> waiting coders
+t_coder		*ft_first_waiting(t_dongles *dongle);
+
+//============> scheduler
+void		choice_scheduler(t_coder *coder);
+void		ft_add_to_queue(t_coder *coder, t_dongles *dongle);
+t_coder		*ft_pop_queue(t_dongles *dongle);
+
+
 #endif
