@@ -6,7 +6,7 @@
 /*   By: oabderra <oabderra@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/20 18:26:07 by oabderra          #+#    #+#             */
-/*   Updated: 2026/07/20 18:26:09 by oabderra         ###   ########.fr       */
+/*   Updated: 2026/07/21 12:23:48 by oabderra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,18 @@ int	ft_cycle_life(t_coder *coder, t_dongles *first, t_dongles *second)
 	ft_print_log(coder, "is refactoring");
 	if (ft_sleep(coder->sim->params->time_to_refactor, coder->sim))
 		return (1);
+	// addintion_test();
+	if (coder->sim->params->number_of_coders % 2 != 0)
+	{
+		long comp = coder->sim->params->time_to_compile;
+		long ref = coder->sim->params->time_to_refactor;
+		long deb = coder->sim->params->time_to_debug;
+		int col = coder->sim->params->dongle_cooldown;
+		long total = comp + ref + deb + col;
+		int diff = coder->sim->params->time_to_burnout - total;
+
+		ft_sleep(diff - diff/10, coder->sim);
+	}
 	if (ft_read_safe(&coder->sim->share_mutex, &coder->compile_count)
 		>= coder->sim->params->number_of_compiles_required)
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: oabderra <oabderra@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/20 18:26:42 by oabderra          #+#    #+#             */
-/*   Updated: 2026/07/20 18:52:49 by oabderra         ###   ########.fr       */
+/*   Updated: 2026/07/21 11:45:34 by oabderra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,6 @@ int	take_dongles(t_coder *c, t_dongles *d)
 		else
 			pthread_cond_wait(&d->cond, &d->lock);
 	}
-	// while (!d->is_available || ft_first_waiting(d) != c || ft_get_time() < d->available_at)
-	// {
-	// 	if (!ft_read_safe(&c->sim->share_mutex, &c->sim->simulation_on))
-	// 	{
-	// 		pthread_mutex_unlock(&d->lock);
-	// 		return (1);
-	// 	}
-	// 	pthread_cond_wait(&d->cond, &d->lock);
-	// }
 	ft_pop_queue(d);
 	d->is_available = 0;
 	d->available_at = ft_get_time();
