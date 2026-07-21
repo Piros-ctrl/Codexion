@@ -6,7 +6,7 @@
 /*   By: oabderra <oabderra@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/20 18:25:39 by oabderra          #+#    #+#             */
-/*   Updated: 2026/07/20 18:25:46 by oabderra         ###   ########.fr       */
+/*   Updated: 2026/07/21 23:55:03 by oabderra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,16 +59,43 @@ void	ft_print_log(t_coder *coder, char *str)
 	pthread_mutex_unlock(&coder->sim->log_mutex);
 }
 
-void	get_dongle_order(t_coder *coder, t_dongles **first, t_dongles **second)
+void	get_dongle_order(t_coder *coder, t_dongles	**first, t_dongles	**second)
 {
-	if (coder->left_dongle->id < coder->right_dongle->id)
+	*first = coder->left_dongle;
+	*second = coder->right_dongle;
+
+	if (coder->id % 2 != 0)
 	{
-		*first = coder->left_dongle;
-		*second = coder->right_dongle;
+		if ((*first)->waiting.coders[0] != NULL)
+			(*first)->waiting.coders[1] = coder;
+		else
+			(*first)->waiting.coders[0] = coder;
+		if ((*second)->waiting.coders[0] != NULL)
+			(*second)->waiting.coders[1] = coder;
+		else
+			(*second)->waiting.coders[0] = coder;
 	}
 	else
 	{
-		*first = coder->right_dongle;
-		*second = coder->left_dongle;
+		(*first)->waiting.coders[1] = coder;
+		(*second)->waiting.coders[1] = coder;
 	}
+}
+
+void	precreate_threads(t_coder *coder)
+{
+	t_sim	*sim;
+
+	sim = coder->sim;
+	pthread_mutex_lock(&sim->share_mutex);
+	sim->ready_threads++;
+	if (sim->ready_threads == sim->params->number_of_coders)
+		pthread_cond_broadcast(&sim->start_cond);
+	else
+	{
+		while (sim->ready_threads < sim->params->number_of_coders)
+			pthread_cond_wait(&sim->start_cond, &sim->share_mutex);
+	}
+	pthread_cond_destroy(&sim->start_cond);
+	pthread_mutex_unlock(&sim->share_mutex);
 }

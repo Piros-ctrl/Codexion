@@ -6,7 +6,7 @@
 /*   By: oabderra <oabderra@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/20 18:26:42 by oabderra          #+#    #+#             */
-/*   Updated: 2026/07/21 11:45:34 by oabderra         ###   ########.fr       */
+/*   Updated: 2026/07/21 22:09:06 by oabderra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,3 +61,11 @@ void	ft_put_dongles(t_coder *coder)
 	release_one(coder->left_dongle, coder);
 	release_one(coder->right_dongle, coder);
 }
+
+// void	pre_reserve_dongles(t_coder *coder)
+// {
+// 	if(coder->id % 2 != 0)
+// 	{
+		
+// 	}
+// }

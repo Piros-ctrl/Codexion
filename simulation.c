@@ -6,7 +6,7 @@
 /*   By: oabderra <oabderra@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/20 18:26:07 by oabderra          #+#    #+#             */
-/*   Updated: 2026/07/21 12:23:48 by oabderra         ###   ########.fr       */
+/*   Updated: 2026/07/21 23:48:34 by oabderra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,6 @@ int	ft_cycle_life(t_coder *coder, t_dongles *first, t_dongles *second)
 	ft_print_log(coder, "is refactoring");
 	if (ft_sleep(coder->sim->params->time_to_refactor, coder->sim))
 		return (1);
-	// addintion_test();
-	if (coder->sim->params->number_of_coders % 2 != 0)
-	{
-		long comp = coder->sim->params->time_to_compile;
-		long ref = coder->sim->params->time_to_refactor;
-		long deb = coder->sim->params->time_to_debug;
-		int col = coder->sim->params->dongle_cooldown;
-		long total = comp + ref + deb + col;
-		int diff = coder->sim->params->time_to_burnout - total;
-
-		ft_sleep(diff - diff/10, coder->sim);
-	}
 	if (ft_read_safe(&coder->sim->share_mutex, &coder->compile_count)
 		>= coder->sim->params->number_of_compiles_required)
 		return (1);
@@ -60,6 +48,7 @@ void	*ft_rotine(void *args)
 
 	c = (t_coder *)args;
 	get_dongle_order(c, &first, &second); // why two pointers
+	precreate_threads(c);
 	while (ft_read_safe(&c->sim->share_mutex, &c->sim->simulation_on))
 	{
 		if (ft_cycle_life(c, first, second))
@@ -100,6 +89,8 @@ int	ft_simulation(t_sim *sim)
 	coder = ft_init_coders(sim);
 	if (!coder)
 		return (1);
+	// pre_reserve_dongles(coder);
+	// ft_creat_all_coders();
 	i = 0;
 	if (ft_creation_threads(sim, coder, i))
 		return (1);

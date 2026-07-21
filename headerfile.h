@@ -49,9 +49,11 @@ typedef struct s_sim
 	pthread_t				monitor_thread;
 	pthread_mutex_t			share_mutex;
 	pthread_mutex_t			log_mutex;
+	pthread_cond_t  		start_cond;
 	int						start_flag;
 	long					start_time;
 	long					burned_out;
+	unsigned int			ready_threads;
 	long					simulation_on;
 }							t_sim;
 
@@ -94,6 +96,7 @@ void		get_dongle_order(t_coder *c, t_dongles **first, t_dongles **second);
 //============> dongle_actions.c
 int			take_dongles(t_coder *c, t_dongles *d);
 void		ft_put_dongles(t_coder *c);
+void		precreate_threads(t_coder *coder);
 
 //============> simulation.c
 int			ft_cycle_life(t_coder *c, t_dongles *first, t_dongles *second);

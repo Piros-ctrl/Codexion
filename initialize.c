@@ -6,7 +6,7 @@
 /*   By: oabderra <oabderra@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/20 18:26:35 by oabderra          #+#    #+#             */
-/*   Updated: 2026/07/20 18:26:38 by oabderra         ###   ########.fr       */
+/*   Updated: 2026/07/21 23:55:47 by oabderra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,11 @@ t_sim	*ft_init_sim(t_conf *config)
 	sim->start_time = 0;
 	sim->burned_out = 0;
 	sim->simulation_on = 1;
+	sim->ready_threads = 0;
 	memset(&sim->monitor_thread, 0, sizeof(pthread_t));
 	pthread_mutex_init(&sim->share_mutex, NULL);
 	pthread_mutex_init(&sim->log_mutex, NULL);
+	pthread_cond_init(&sim->start_cond, NULL);
 	if (!ft_init_dongeles(sim, config->number_of_coders))
 		return (NULL);
 	if (!ft_init_coders(sim))
