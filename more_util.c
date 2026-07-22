@@ -6,7 +6,7 @@
 /*   By: oabderra <oabderra@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/20 18:25:39 by oabderra          #+#    #+#             */
-/*   Updated: 2026/07/20 18:25:46 by oabderra         ###   ########.fr       */
+/*   Updated: 2026/07/22 22:49:22 by oabderra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,22 +53,13 @@ int	ft_sleep(long ms, t_sim *sim)
 
 void	ft_print_log(t_coder *coder, char *str)
 {
+	long	s_time;
+	long		id;
+
+	s_time = coder->sim->start_time;
+	id = coder->id;
 	pthread_mutex_lock(&coder->sim->log_mutex);
 	if (ft_read_safe(&coder->sim->share_mutex, &coder->sim->simulation_on))
-		printf("%ld %ld %s\n", ft_get_time() - coder->sim->start_time, coder->id, str);
+		printf("%ld %ld %s\n", ft_get_time() - s_time, id, str);
 	pthread_mutex_unlock(&coder->sim->log_mutex);
-}
-
-void	get_dongle_order(t_coder *coder, t_dongles **first, t_dongles **second)
-{
-	if (coder->left_dongle->id < coder->right_dongle->id)
-	{
-		*first = coder->left_dongle;
-		*second = coder->right_dongle;
-	}
-	else
-	{
-		*first = coder->right_dongle;
-		*second = coder->left_dongle;
-	}
 }

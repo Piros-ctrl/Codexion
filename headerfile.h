@@ -1,72 +1,85 @@
-#ifndef HEADER_H
-#define HEADER_H
-#include <pthread.h>
-#include <stdio.h>
-#include <string.h>
-#include <sys/time.h>
-#include <unistd.h>
-#include <stdlib.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   headerfile.h                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: oabderra <oabderra@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/07/22 22:08:23 by oabderra          #+#    #+#             */
+/*   Updated: 2026/07/22 22:20:16 by oabderra         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-typedef struct s_coder   t_coder;
-typedef struct s_dongles t_dongles;
-typedef struct s_sim     t_sim;
+#ifndef HEADERFILE_H
+# define HEADERFILE_H
+# include <pthread.h>
+# include <stdio.h>
+# include <string.h>
+# include <sys/time.h>
+# include <unistd.h>
+# include <stdlib.h>
+
+typedef struct s_coder		t_coder;
+typedef struct s_dongles	t_dongles;
+typedef struct s_sim		t_sim;
 
 //===========>this is for the input in parsing
-typedef struct s_conf{
-    unsigned int    number_of_coders;
-    unsigned int    time_to_burnout;
-    unsigned int    time_to_compile;
-    int             time_to_debug;
-    int             time_to_refactor;
-    unsigned int    number_of_compiles_required;
-    int             dongle_cooldown;
-    int             scheduler;
-}                   t_conf;
+typedef struct s_conf
+{
+	unsigned int	number_of_coders;
+	unsigned int	time_to_burnout;
+	unsigned int	time_to_compile;
+	int				time_to_debug;
+	int				time_to_refactor;
+	unsigned int	n_of_comp_required;
+	int				dongle_cooldown;
+	int				scheduler;
+}					t_conf;
 
 // ============> this is for waiting queue
 typedef struct s_queue
 {
-	t_coder					*coders[2];
-}							t_queue;
+	t_coder			*coders[2];
+}					t_queue;
 
 //============> this is for dungle
 typedef struct s_dongles
 {
-	long					id;
-	long					available_at;
-	int						is_available;
-	t_queue					waiting;
-	pthread_mutex_t			lock;
-	pthread_cond_t			cond;
-}							t_dongles;
+	long			id;
+	long			available_at;
+	int				is_available;
+	t_queue			waiting;
+	pthread_mutex_t	lock;
+	pthread_cond_t	cond;
+}					t_dongles;
 
 //============> this is for sim
 typedef struct s_sim
 {
-	t_conf					*params;
-	t_dongles				*dongles;
-	t_coder					*coders;
-	pthread_t				monitor_thread;
-	pthread_mutex_t			share_mutex;
-	pthread_mutex_t			log_mutex;
-	int						start_flag;
-	long					start_time;
-	long					burned_out;
-	long					simulation_on;
-}							t_sim;
+	t_conf			*params;
+	t_dongles		*dongles;
+	t_coder			*coders;
+	pthread_t		monitor_thread;
+	pthread_mutex_t	share_mutex;
+	pthread_mutex_t	log_mutex;
+	int				start_flag;
+	long			start_time;
+	long			burned_out;
+	long			simulation_on;
+}					t_sim;
 
 //============> this is for the coder
 typedef struct s_coder
 {
-	long					id;
-	pthread_t				thread;
-	t_dongles				*left_dongle;
-	t_dongles				*right_dongle;
-	long					last_compile;
-	long					compile_count;
-	long					request_time;
-	t_sim					*sim;
-}							t_coder;
+	long			id;
+	pthread_t		thread;
+	t_dongles		*left_dongle;
+	t_dongles		*right_dongle;
+	long			last_compile;
+	long			compile_count;
+	long			request_time;
+	t_sim			*sim;
+}					t_coder;
 
 //============> parsing
 int			is_itzero(char *str);
@@ -115,6 +128,5 @@ t_coder		*ft_first_waiting(t_dongles *dongle);
 void		choice_scheduler(t_coder *coder);
 void		ft_add_to_queue(t_coder *coder, t_dongles *dongle);
 t_coder		*ft_pop_queue(t_dongles *dongle);
-
 
 #endif

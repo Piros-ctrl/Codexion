@@ -6,7 +6,7 @@
 /*   By: oabderra <oabderra@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/20 18:26:22 by oabderra          #+#    #+#             */
-/*   Updated: 2026/07/21 11:35:48 by oabderra         ###   ########.fr       */
+/*   Updated: 2026/07/22 22:12:27 by oabderra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,14 @@ static int	check_burnout(t_sim *sim)
 	long	i;
 	long	last;
 	long	now;
-	int		coldown;
 
 	i = 0;
 	while (i < sim->params->number_of_coders)
 	{
 		pthread_mutex_lock(&sim->share_mutex);
 		last = sim->coders[i].last_compile;
-		coldown = sim->params->dongle_cooldown;
 		now = ft_get_time();
-		if (now - last + coldown > sim->params->time_to_burnout)
+		if (now - last > sim->params->time_to_burnout)
 		{
 			sim->burned_out = sim->coders[i].id;
 			sim->simulation_on = 0;

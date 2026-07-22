@@ -6,7 +6,7 @@
 /*   By: oabderra <oabderra@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/20 18:26:07 by oabderra          #+#    #+#             */
-/*   Updated: 2026/07/21 12:23:48 by oabderra         ###   ########.fr       */
+/*   Updated: 2026/07/22 21:37:15 by oabderra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int	ft_cycle_life(t_coder *coder, t_dongles *first, t_dongles *second)
 	ft_print_log(coder, "is refactoring");
 	if (ft_sleep(coder->sim->params->time_to_refactor, coder->sim))
 		return (1);
-	// addintion_test();
 	if (coder->sim->params->number_of_coders % 2 != 0)
 	{
 		long comp = coder->sim->params->time_to_compile;
@@ -59,7 +58,7 @@ void	*ft_rotine(void *args)
 	t_dongles	*second;
 
 	c = (t_coder *)args;
-	get_dongle_order(c, &first, &second); // why two pointers
+	get_dongle_order(c, &first, &second);
 	while (ft_read_safe(&c->sim->share_mutex, &c->sim->simulation_on))
 	{
 		if (ft_cycle_life(c, first, second))

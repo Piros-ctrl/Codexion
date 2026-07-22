@@ -6,12 +6,11 @@
 /*   By: oabderra <oabderra@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/20 18:26:15 by oabderra          #+#    #+#             */
-/*   Updated: 2026/07/20 18:26:17 by oabderra         ###   ########.fr       */
+/*   Updated: 2026/07/22 22:19:47 by oabderra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "headerfile.h"
-
 
 static int	parse_number(char *arg, int *value, char *name, int positive)
 {

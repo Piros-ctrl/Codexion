@@ -6,7 +6,7 @@
 /*   By: oabderra <oabderra@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/20 18:26:35 by oabderra          #+#    #+#             */
-/*   Updated: 2026/07/20 18:26:38 by oabderra         ###   ########.fr       */
+/*   Updated: 2026/07/22 22:11:26 by oabderra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,10 @@ t_dongles	*ft_init_dongeles(t_sim *sim, long nb)
 		dongle[i].id = i + 1;
 		dongle[i].available_at = 0;
 		dongle[i].is_available = 1;
-
 		pthread_mutex_init(&dongle[i].lock, NULL);
 		pthread_cond_init(&dongle[i].cond, NULL);
-
 		dongle[i].waiting.coders[0] = NULL;
 		dongle[i].waiting.coders[1] = NULL;
-
 		i++;
 	}
 	return (dongle);
